@@ -36,20 +36,29 @@ or sandbox tests.
 
 ## How generation works
 
-A pet's species, rarity, name, hat, eye style, and 5 personality stats
-(DEBUGGING / PATIENCE / CHAOS / WISDOM / SNARK) are all derived from
-your seed via a deterministic Mulberry32 PRNG. Same seed in, same pet
-out — every time.
+A pet has two layers:
 
-Rarity drop rates:
+- **Bones** — species, rarity, shiny, eye style, hat, stats. Pure function
+  of your seed (FNV-1a hash → Mulberry32 PRNG). Recomputed every load
+  and never trusted from disk, so editing the save file can't give you
+  a Legendary.
+- **Soul + state** — name, birth time, hunger / happiness / energy.
+  Persisted to `~/.local_tamagotchi.json`.
 
-| Rarity            | Drop rate |
-|-------------------|-----------|
-| Common            | 60%       |
-| Rare              | 25%       |
-| Epic              | 10%       |
-| Legendary         | ~4%       |
-| Shiny Legendary   | 0.01%     |
+Rarity ladder:
+
+| Rarity     | Drop rate | Stat floor | Hat pool                  |
+|------------|-----------|------------|---------------------------|
+| Common     | 60%       | 5          | (none)                    |
+| Uncommon   | 25%       | 15         | crown / top hat / propeller |
+| Rare       | 10%       | 25         | + halo, wizard hat        |
+| Epic       | 4%        | 35         | + beanie                  |
+| Legendary  | 1%        | 50         | + tiny duck               |
+
+Stats use a peak / dump / scattered roll: one stat is boosted to
+`floor + 50..99`, one is held near the floor, and the remaining three
+are scattered. Higher rarity ⇒ higher floor ⇒ statistically stronger
+pet across the board.
 
 There's an independent 1% chance for any pet to roll Shiny on top.
 

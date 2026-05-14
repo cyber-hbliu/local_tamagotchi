@@ -24,10 +24,10 @@ _COLORS = {
 
 RARITY_COLORS = {
     "Common": "white",
-    "Rare": "green",
+    "Uncommon": "green",
+    "Rare": "blue",
     "Epic": "magenta",
     "Legendary": "yellow",
-    "Shiny Legendary": "cyan",
 }
 
 

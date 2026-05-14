@@ -4,15 +4,22 @@ The 'bones' of a pet (species, rarity, stats) are derived deterministically
 from a seed string. Same seed -> same pet, always.
 """
 
-import hashlib
+SALT = "friend-2026-401"
+
+_FNV_OFFSET = 0x811C9DC5
+_FNV_PRIME = 0x01000193
 
 
-SALT = "local-tamagotchi-2026"
+def fnv1a(s: str) -> int:
+    h = _FNV_OFFSET
+    for byte in s.encode("utf-8"):
+        h ^= byte
+        h = (h * _FNV_PRIME) & 0xFFFFFFFF
+    return h
 
 
 def _hash_seed(seed: str) -> int:
-    digest = hashlib.sha256(f"{SALT}:{seed}".encode("utf-8")).digest()
-    return int.from_bytes(digest[:4], "big") & 0xFFFFFFFF
+    return fnv1a(f"{SALT}:{seed}")
 
 
 class Mulberry32:

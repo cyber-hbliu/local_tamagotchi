@@ -1,4 +1,4 @@
-"""The 18 species and their ASCII sprites."""
+"""The 18 species, ASCII sprites, and hat unlocks."""
 
 SPECIES = [
     "Duck", "Goose", "Cat", "Rabbit", "Owl", "Penguin",
@@ -6,7 +6,6 @@ SPECIES = [
     "Robot", "Blob", "Cactus", "Mushroom", "Chonk", "Capybara",
 ]
 
-# Compact ASCII sprites — kept small so they fit alongside the status card.
 SPRITES = {
     "Duck": [
         "  __",
@@ -116,7 +115,16 @@ SPRITES = {
 }
 
 EYE_STYLES = ["o", "O", "^", "•", "x", "·"]
-HATS = [None, "wizard hat", "party hat", "crown", "beanie", "bow", "halo"]
+
+# Rarity-gated hat pools. Common always rolls None; everything Uncommon+
+# is guaranteed to wear something.
+HATS_BY_RARITY = {
+    "Common":    [None],
+    "Uncommon":  ["crown", "top hat", "propeller"],
+    "Rare":      ["crown", "top hat", "propeller", "halo", "wizard hat"],
+    "Epic":      ["crown", "top hat", "propeller", "halo", "wizard hat", "beanie"],
+    "Legendary": ["crown", "top hat", "propeller", "halo", "wizard hat", "beanie", "tiny duck"],
+}
 
 
 def sprite_for(species: str) -> list[str]:
