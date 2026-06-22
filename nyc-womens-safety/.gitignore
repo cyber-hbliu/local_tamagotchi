@@ -1,8 +1,0 @@
-data/raw/*
-data/processed/*
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-.Rhistory
-.RData
-.Rproj.user/
-*.log
